@@ -1,4 +1,3 @@
-
 const multer=require('multer')
 const path=require('path') // path faylni orginal nomi aytadi masalan : png ,jpg 
 const File=require('../moduls/fileModul')
@@ -7,10 +6,10 @@ const sendMail=require('../services/emailService')
 
 
 let storage=multer.diskStorage({
-  destination:(req,file,cb)=>cb(null,'uploads/'),
-  filename:(req,file,cb)=>{
+  destination:(req,file,cb)=>cb(null,'uploads/'), // qaysi faylda ekanligini ko'rsatish
+  filename:(req,file,cb)=>{ // fayl larga nom berish . Bir xil bo'lmasligi kerak . cb function bizga uniquname ni qaytaradi. req.fayl.faylname ga tenglab qo'yadi
     const uniqueName=`${Date.now()}-${Math.round(Math.random()*1E9)} ${path.extname(file.originalname)}`;
-    cb(null,uniqueName)
+    cb(null,uniqueName) 
   }
 })
 

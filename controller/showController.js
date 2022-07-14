@@ -1,9 +1,9 @@
-const router=require('express').Router()
 const File=require('../moduls/fileModul')
 
-router.get('/:uuid',async(req,res)=>{
+const showController=async(req,res)=>{
   try {
-    const file=await File.findOne({uuid:req.params.uuid })
+    const file=await File.findOne({uuid:req.params.uuid})
+
     if(!file){
       return res.render('download',{error:'Sizning linkingizni vaqti tugagan'})
     }
@@ -14,10 +14,10 @@ router.get('/:uuid',async(req,res)=>{
       fileSize:file.size,
       downloadLink:`${process.env.APP_BASE_URL}/files/download/${file.uuid}`
     })
+    
   } catch (error) {
-    return res.render('download',{error:'Something went wrong.'})
+    return res.render('download',{error:'showda xato !'}) 
   }
-  
-})
+}
 
-module.exports=router
+module.exports={showController}

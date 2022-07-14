@@ -1,17 +1,7 @@
 const router=require('express').Router()
+const downloadController=require('../controller/downloadController')
 
-const File=require('../moduls/fileModul')
-
-
-router.get('/:uuid',async(req,res)=>{
-  const file=await File.findOne({uuid:req.params.uuid})
-
-  if(!file){
-    return res.render('download',{error:'link vaqti tugagan !'})
-  }
-
-  const filePath=`${__dirname}/../${file.path}`
-  res.download(filePath)
-})
+// download file
+router.route('/:uuid').get(downloadController.download)
 
 module.exports=router
