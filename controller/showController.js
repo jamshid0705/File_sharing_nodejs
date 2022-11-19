@@ -9,6 +9,7 @@ const showController=async(req,res)=>{
     }
 
     res.render('download',{
+      parol:file.parol,
       uuid:file.uuid,
       fileName:file.filename,
       fileSize:file.size,

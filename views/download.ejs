@@ -23,7 +23,13 @@
             <h4><%= fileName %></h4>
             <small><%= parseInt(fileSize/1000) %> KB</small>
         </div>
+        <form method="POST" action="/submit-password">
+            <input type="text" name="parol" placeholder="Parol kiriting !" aria-label="Search" id="">
+          </form>
         <div class="send-btn-container">
+            <% parol %>
+            <% %>
+            <% %>
             <a href="<%= downloadLink %>">Download file</a>
         </div>
         <% } %>

@@ -1,6 +1,9 @@
 const mongoose=require('mongoose')
 
 const Schema=new mongoose.Schema({
+  parol:{
+    type:Number
+  },
   filename:{
     type:String,
     require:true

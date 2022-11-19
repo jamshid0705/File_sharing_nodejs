@@ -1,11 +1,10 @@
 const nodemailer=require('nodemailer')
 
-async function sendMail({from,to,subject,text,html}){
+const sendMail=async ({from,to,subject,text,html})=>{
 
   let transport=nodemailer.createTransport({
     host:process.env.EMAIL_HOST,
     port:process.env.EMAIL_PORT,
-    secure:false,
     auth:{
       user:process.env.EMAIL_USER,
       pass:process.env.EMAIL_PASS
@@ -16,7 +15,7 @@ async function sendMail({from,to,subject,text,html}){
   })
 
 
-  let send=await transport.sendMail({
+  return await transport.sendMail({
     from:from,
     to:to,
     subject:subject,

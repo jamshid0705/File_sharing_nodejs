@@ -1,7 +1,7 @@
 const multer=require('multer')
 const path=require('path') // path faylni orginal nomi aytadi masalan : png ,jpg 
 const File=require('../moduls/fileModul')
-const {v4:uuid4}=require('uuid')  // bizga unikalni id yasab beradi
+const {v4:uuidv4}=require('uuid')  // bizga unikalni id yasab beradi
 const sendMail=require('../services/emailService')
 
 
@@ -34,10 +34,12 @@ const addFile=async (req,res)=>{
       return res.status(500).send({error:err.message})
     }
 
+    console.log(req.file)
     // store into database
     const file=await File.create({  
+      parol:1234,
       filename:req.file.filename,
-      uuid:uuid4(),        // unikalni id yasab beradi
+      uuid:uuidv4(),        // unikalni id yasab beradi
       path:req.file.path,
       size:req.file.size
     })
@@ -52,6 +54,7 @@ const addFile=async (req,res)=>{
 
 const sendFile=async(req,res)=>{
   const {uuid,emailTo,emailFrom}=req.body
+  console.log(req.body)
 
   if(!uuid || !emailTo || !emailFrom){
     return res.status(422).send({error:'Barcha malumotlarni kiriting !'})
@@ -60,10 +63,11 @@ const sendFile=async(req,res)=>{
   // get database
 
   const file=await File.findOne({uuid:uuid})
+  console.log(file)
 
-  if(file.sender){
-    return res.status(422).send({error:'Bu email ishlatilgan !'})
-  }
+  // if(file.sender){
+  //   return res.status(422).send({error:'Bu email ishlatilgan !'})
+  // }
 
   file.sender=emailFrom
   file.receiver=emailTo
@@ -79,12 +83,12 @@ const sendFile=async(req,res)=>{
     html:require('../services/emailTemplate')({
       emailFrom:emailFrom,
       downloadLink:`${process.env.APP_BASE_URL}/files/${file.uuid}`,
-      size:parseInt(fayl.size/1000)+'KB',
+      size:parseInt(file.size/1000)+'KB',
       expires:"24 hours"
     })
   })
 
-
+  res.status(422).send(`${file.emailFrom} ga xabar jo'natildi !`)
 
 
 }
